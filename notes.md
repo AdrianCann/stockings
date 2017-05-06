@@ -12,6 +12,8 @@ https://www.youtube.com/watch?annotation_id=annotation_764239847&feature=iv&list
 
 * Pandas - python library for data manipulation from DBs, spreadsheets, etc.
 * `pip install pandas`
+* Planning to pull out data with pandas and output to csv file
+
 * 
 * .gitignore will prevent putting giant dataset on github
 * These files are saved year, month day, hour, minute, second for the file name
