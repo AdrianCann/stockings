@@ -18,3 +18,10 @@ https://www.youtube.com/watch?annotation_id=annotation_764239847&feature=iv&list
 * .gitignore will prevent putting giant dataset on github
 * These files are saved year, month day, hour, minute, second for the file name
 
+## Stock stuff
+* we are using stocks from the S&P500 so we will try comparing to an S&P 500
+  index
+* The website in the tutorial charges for data now.
+* took from
+  https://raw.githubusercontent.com/michaelgu95/machine-learning-stocks/master/YAHOO-INDEX_GSPC.csv
+with curl URL > > YAHOO-INDEX_GSPC.csv
