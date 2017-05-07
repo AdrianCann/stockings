@@ -9,10 +9,20 @@ def Key_Stats(gather="Total Debt/Equity (mrq)"):
     statspath = path + '/_KeyStats'
     stock_list = [x[0] for x in os.walk(statspath)]
 
-    df = pd.DataFrame(columns=["Date", "Unix", "Ticker", "DE Ratio", "Price", "S&P500"])
+    df = pd.DataFrame(columns=[
+        "Date",
+        "Unix",
+        "Ticker",
+        "DE Ratio",
+        "Price", # would drop if space were a concern, big data set
+        "stock_p_change",
+        "S&P500", # would also drop...
+        "sp500_p_change"])
     #data frame
 
     sp500_df = pd.DataFrame.from_csv("YAHOO-INDEX_GSPC.csv")
+
+    ticker_list = []
 
     for each_dir in stock_list[1:25]:
     # starting at 1 because it lists the root directory first
@@ -20,6 +30,10 @@ def Key_Stats(gather="Total Debt/Equity (mrq)"):
 
         ticker = each_dir.split("/")[-1]
         # company abreviation 
+        ticker_list.append(ticker)
+
+        starting_stock_value = False
+        starting_sp500_value = False
 
         if len(each_file) > 0:
             # empty file
@@ -46,13 +60,25 @@ def Key_Stats(gather="Total Debt/Equity (mrq)"):
                     stock_price = float(source.split('</small><big><b>')[1].split("</b></big>")[0])
                     # print("stock_price: ", stock_price, "ticker: ", ticker)
 
+                    if not starting_stock_value:
+                        starting_stock_value = stock_price
+                    if not starting_sp500_value:
+                        starting_sp500_value = sp500_value
+
+                    stock_p_change = 100 * ((stock_price - starting_stock_value)/starting_stock_value)
+                    sp500_p_change = 100 * ((sp500_value - starting_sp500_value)/starting_sp500_value)
+                    # stock percent change. Stock_price = new price,
+
+
                     df = df.append({
                         "Date": date_stamp,
                         "Unix": unix_time,
                         "Ticker": ticker,
                         "DE Ratio": value,
                         "Price":  stock_price,
-                        "S&P500": sp500_value}, ignore_index=True)
+                        "stock_p_change": stock_p_change,
+                        "S&P500": sp500_value,
+                        "sp500_p_change": sp500_p_change}, ignore_index=True)
                 except Exception as e:
                     # could be catching values that wont be a float or no value
                     pass
